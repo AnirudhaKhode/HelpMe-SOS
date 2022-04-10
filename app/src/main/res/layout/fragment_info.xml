@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/info">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#FF5722"
+        android:text="  INSTRUCTIONS:\n\n  1.ALLOW ALL PERMISSIONS.\n  2.ADD A CONTACT NUMBER.\n  3.DURING EMERGENCIES SHAKE YOUR PHONE 3 TIMES.\n  4.MESSAGE WILL BE SENT TO THE ADDED CONTACT NUMBER.\n  5.IF YOU TURN ON YOUR GPS IT WILL SEND YOUR CURRENT MAP LOCATION ALSO."
+        android:textColor="#FFE500"
+        android:textSize="20dp"
+        android:textStyle="bold|italic" />
+
+</RelativeLayout>

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">HelpMe</string>
+    <string name="add_emergency_contact">Add Emergency Contact</string>
+    <string name="created_by_anirudha_khode_and_team">Created By Anirudha Khode and Team</string>
+    <string name="ambulance">Ambulance</string>
+    <string name="phone">Phone</string>
+    <string name="name">Name</string>
+    <string name="police_car">Police Car</string>
+    <string name="fire_truck">Fire Truck</string>
+</resources>
