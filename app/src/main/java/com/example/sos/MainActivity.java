@@ -1,5 +1,7 @@
 package com.example.sos;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,28 +16,45 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.ContactsContract;
 import android.provider.Settings;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationToken;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnTokenCanceledListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.example.sos.Contacts.ContactModel;
 import com.example.sos.Contacts.CustomAdapter;
 import com.example.sos.Contacts.DbHelper;
 import com.example.sos.ShakeServices.ReactivateService;
 import com.example.sos.ShakeServices.SensorService;
+
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,8 +67,14 @@ public class MainActivity extends AppCompatActivity {
     DbHelper db;
     List<ContactModel> list;
     CustomAdapter customAdapter;
+    ImageButton ambulancebtn;
+    ImageButton firebtn;
+    ImageButton policebtn;
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //check for runtime permissions
@@ -103,7 +128,89 @@ public class MainActivity extends AppCompatActivity {
         });
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+
+        //initializing emergency buttons
+        ambulancebtn = findViewById(R.id.ButtonAmbulance);
+        firebtn = findViewById(R.id.ButtonFiretruck);
+        policebtn = findViewById(R.id.ButtonPolice);
+
+        //Current Location
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        String userLocation;
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                            String longitude = Double.toString(location.getLongitude());
+                            String latitude = Double.toString(location.getLatitude());
+                            userLocation= "http://maps.google.com/?q=" + latitude + "," + longitude;
+                        }
+                        else{
+                            userLocation="unknown location please contact the number";
+                        }
+
+
+                        //Send message if Ambulance button is clicked
+                        ambulancebtn.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                // Functionality for the button...
+                                Toast.makeText(getApplicationContext(),"Long press to send sms",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        ambulancebtn.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                sendSms("**Urgent** Ambulance required at "+userLocation, "+918305690703", "Sending Message for Ambulance");
+                                return false;
+                            }
+                        });
+
+
+
+                        //Send message if Fire button is clicked
+                        firebtn.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                // Functionality for the button...
+                                Toast.makeText(getApplicationContext(),"Long press to send sms",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        firebtn.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                sendSms("**Urgent** Fire truck required at "+userLocation, "+918305690703", "Sending Message for Fire truck");
+                                return false;
+                            }
+                        });
+
+                        //Send message if police button is clicked
+                        policebtn.setOnClickListener(new View.OnClickListener(){
+                            @Override
+                            public void onClick(View v){
+                                // Functionality for the button...
+                                Toast.makeText(getApplicationContext(),"Long press to send sms",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        policebtn.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                sendSms("**Urgent** Police required at "+ userLocation, "+918305690703", "Sending Message for Police");
+                                return false;
+                            }
+                        });
+                    }
+                });
     }
+
+
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -204,6 +311,12 @@ public class MainActivity extends AppCompatActivity {
             startActivityForResult(intent, IGNORE_BATTERY_OPTIMIZATION_REQUEST);
         }
 
+    }
+
+    public void sendSms(String message, String contactNumber, String toastMsg){
+        SmsManager smsManager= SmsManager.getDefault();
+        smsManager.sendTextMessage(contactNumber, null, message, null, null);
+        Toast.makeText(getApplicationContext(),toastMsg,Toast.LENGTH_SHORT).show();
     }
 
 }

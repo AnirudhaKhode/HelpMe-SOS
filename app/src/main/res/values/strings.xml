@@ -7,4 +7,6 @@
     <string name="name">Name</string>
     <string name="police_car">Police Car</string>
     <string name="fire_truck">Fire Truck</string>
+    <string name="created_by_anirudha_anika_aniket_and_akshay">Created by Anirudha, Anika, Aniket and Akshay</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -24,21 +24,21 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:padding="5dp">
 
         <ImageButton
             android:id="@+id/ButtonAmbulance"
             android:layout_width="105dp"
             android:layout_height="93dp"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="4dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/ambulance"
-            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.254"
             app:srcCompat="@drawable/ambulance"
             tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
@@ -48,29 +48,31 @@
             android:layout_height="93dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/police_car"
-            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/ButtonFiretruck"
+            app:layout_constraintHorizontal_bias="0.481"
             app:layout_constraintStart_toEndOf="@+id/ButtonAmbulance"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.216"
             app:srcCompat="@drawable/police_car"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck"
+            android:layout_marginStart="4dp" />
 
         <ImageButton
             android:id="@+id/ButtonFiretruck"
             android:layout_width="105dp"
             android:layout_height="93dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="4dp"
             android:adjustViewBounds="true"
             android:contentDescription="@string/fire_truck"
-            android:padding="10dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.235"
             app:srcCompat="@drawable/fire_truck"
-            tools:ignore="SpeakableTextPresentCheck" />
+            tools:ignore="SpeakableTextPresentCheck,ImageContrastCheck" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -78,21 +80,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/Countdown"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="86dp"
-            android:layout_marginEnd="192dp"
-            tools:text="15" />
-
         <FrameLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/bottom_navigation" >
+            android:layout_above="@id/bottom_navigation">
 
         </FrameLayout>
 
@@ -100,8 +92,23 @@
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:background="@color/blue_dark" />
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="40dp"
+            android:background="@color/blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                android:paddingTop="5dp"
+                android:textAlignment="center"/>
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
     </RelativeLayout>
 
